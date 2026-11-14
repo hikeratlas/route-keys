@@ -1,0 +1,39 @@
+name: Release
+
+# On a version tag (v1.0.0): test, then publish a GitHub release with the
+# TypeScript package's tarball, which consumers install by URL (npm can't
+# install a git dependency from a subdirectory). Python installs from the tag.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Versions match the tag
+        run: |
+          v="${GITHUB_REF_NAME#v}"
+          test "$(node -p "require('./ts/package.json').version")" = "$v"
+          grep -q "^version = \"$v\"$" python/pyproject.toml
+      - run: pip install 'h3>=4.1,<5' && python -m unittest discover -s python/tests
+      - working-directory: ts
+        run: npm ci --no-audit --no-fund && npm test && npm pack
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" ts/hikeratlas-route-keys-*.tgz \
+            --title "$GITHUB_REF_NAME" \
+            --notes "Route keys, recipe v1. TypeScript: install the attached tarball by URL. Python: pip install \"route-keys @ git+https://github.com/hikeratlas/route-keys@$GITHUB_REF_NAME#subdirectory=python\"."
