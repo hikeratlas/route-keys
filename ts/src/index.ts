@@ -1,7 +1,12 @@
 // Route keys, recipe v1 (see SPEC.md at the repository root).
 //
-// A route's identity, computed from its line, so no ids are minted: the same
-// line always gives the same key.
+// A route's identity, computed from its line, so no ids are minted:
+//
+//   1E57E06gbDEBBBICDGF.k3Xq9vB0aRm
+//   \_ cells: decodable _/ \_ hash _/
+//
+// The cells say where the route is and roughly where it goes; the hash makes
+// the key an exact identity of the line.
 //
 //   routeKey(line, shape): string   line: [[lon, lat], ...]; shape: 'b' | 'p' | 'w'
 //   decode(key): Decoded            throws for anything not a v1 key
@@ -13,12 +18,15 @@
 // character; vectors/v1.json is the contract both are tested against. Recipe
 // v1 is frozen: see CLAUDE.md before changing anything here.
 import { cellToLatLng, cellToLocalIj, isValidCell, latLngToCell, localIjToCell } from 'h3-js';
+import { sha256 } from '@noble/hashes/sha2';
 
 export type Shape = 'b' | 'p' | 'w';
 export type Point = readonly [number, number] | readonly number[]; // [lon, lat]
 
 export const VERSION = '1';
 export const RESOLUTION = 10;
+const GRID = 100000; // coordinates are rounded to 1 / GRID degrees (~1.1 m)
+const HASH_CHARS = 11;
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'; // base64url
 
 export interface Decoded {
@@ -26,11 +34,28 @@ export interface Decoded {
   centroid: string; // H3 cell (resolution 10), hex
   shape: Shape;
   cells: string[]; // the sampled points' distinct cells, in key order
+  hash: string; // the line's hash, 11 characters
 }
 
 // A route's shape letter from its kind: loop -> p, out-and-back -> b,
 // anything else (one-way, point-to-point) -> w.
 export const shapeFor = (kind: string): Shape => (kind === 'loop' ? 'p' : kind === 'out-and-back' ? 'b' : 'w');
+
+// Rounded to the nearest 1/GRID degree, halves away from zero.
+function quantize(v: number): number {
+  const x = v * GRID;
+  return x >= 0 ? Math.floor(x + 0.5) : -Math.floor(-x + 0.5);
+}
+
+function normalize(line: readonly Point[]): [number, number][] {
+  const out: [number, number][] = [];
+  for (const p of line) {
+    const q: [number, number] = [quantize(p[0]), quantize(p[1])];
+    const last = out[out.length - 1];
+    if (!last || last[0] !== q[0] || last[1] !== q[1]) out.push(q);
+  }
+  return out;
+}
 
 function metres(a: Point, b: Point): number {
   const k = Math.cos((((a[1] + b[1]) / 2) * Math.PI) / 180);
@@ -59,9 +84,7 @@ const cell = (p: Point) => latLngToCell(p[1], p[0], RESOLUTION);
 const zigzag = (v: number) => (v >= 0 ? 2 * v : -2 * v - 1);
 const unzigzag = (z: number) => (z % 2 === 0 ? z / 2 : -(z + 1) / 2);
 
-export function routeKey(line: readonly Point[], shape: Shape): string {
-  if (shape !== 'b' && shape !== 'p' && shape !== 'w') throw new Error("shape must be 'b', 'p' or 'w'");
-  if (line.length < 2) throw new Error('a line needs at least two points');
+function cellsPart(line: readonly Point[], shape: Shape): string {
   const segs: number[] = [];
   for (let i = 0; i + 1 < line.length; i++) segs.push(metres(line[i], line[i + 1]));
   let total = 0;
@@ -104,12 +127,45 @@ export function routeKey(line: readonly Point[], shape: Shape): string {
   return out;
 }
 
+function digest(q: [number, number][]): Uint8Array {
+  const bytes = new Uint8Array(q.length * 8);
+  const view = new DataView(bytes.buffer);
+  q.forEach(([lon, lat], i) => { view.setInt32(i * 8, lon, true); view.setInt32(i * 8 + 4, lat, true); });
+  return sha256(bytes);
+}
+
+function hashPart(q: [number, number][]): string {
+  const a = digest(q), b = digest([...q].reverse());
+  let d = a;
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) { d = a[i] < b[i] ? a : b; break; }
+  }
+  // base64url of the first 9 bytes (72 bits, 12 characters), cut to 11.
+  let out = '';
+  for (let i = 0; i < 9; i += 3) {
+    const n = (d[i] << 16) | (d[i + 1] << 8) | d[i + 2];
+    out += ALPHABET[(n >> 18) & 63] + ALPHABET[(n >> 12) & 63] + ALPHABET[(n >> 6) & 63] + ALPHABET[n & 63];
+  }
+  return out.slice(0, HASH_CHARS);
+}
+
+export function routeKey(line: readonly Point[], shape: Shape): string {
+  if (shape !== 'b' && shape !== 'p' && shape !== 'w') throw new Error("shape must be 'b', 'p' or 'w'");
+  if (line.length < 2) throw new Error('a line needs at least two points');
+  const q = normalize(line);
+  return `${cellsPart(q.map(([lon, lat]) => [lon / GRID, lat / GRID]), shape)}.${hashPart(q)}`;
+}
+
 const bad = () => new Error('not a v1 route key');
 
 export function decode(key: string): Decoded {
-  if (key.length < 11 || key[0] !== VERSION || !'bpw'.includes(key[8])) throw bad();
+  const dot = key.indexOf('.');
+  if (dot < 0) throw bad();
+  const cells = key.slice(0, dot), hash = key.slice(dot + 1);
+  if (hash.length !== HASH_CHARS || [...hash].some((ch) => ALPHABET.indexOf(ch) < 0)) throw bad();
+  if (cells.length < 11 || cells[0] !== VERSION || !'bpw'.includes(cells[8])) throw bad();
   const digits: number[] = [];
-  for (const ch of key) {
+  for (const ch of cells) {
     const d = ALPHABET.indexOf(ch);
     if (d < 0) throw bad();
     digits.push(d);
@@ -134,13 +190,13 @@ export function decode(key: string): Decoded {
   }
   if (mul !== 1 || !zs.length || zs.length % 2) throw bad();
   const o = cellToLocalIj(c, c);
-  const cells: string[] = [];
+  const out: string[] = [];
   try {
-    for (let k = 0; k < zs.length; k += 2) cells.push(localIjToCell(c, { i: o.i + unzigzag(zs[k]), j: o.j + unzigzag(zs[k + 1]) }));
+    for (let k = 0; k < zs.length; k += 2) out.push(localIjToCell(c, { i: o.i + unzigzag(zs[k]), j: o.j + unzigzag(zs[k + 1]) }));
   } catch {
     throw bad();
   }
-  return { version: VERSION, centroid: c, shape: key[8] as Shape, cells };
+  return { version: VERSION, centroid: c, shape: cells[8] as Shape, cells: out, hash };
 }
 
 export function isRouteKey(key: string): boolean {

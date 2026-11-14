@@ -85,8 +85,8 @@ def simplify(line, tol):
 def compare(k0, k1):
     d0, d1 = decode(k0), decode(k1)
     shared = len(set(d0.cells) & set(d1.cells))
-    return {'same': k0 == k1, 'centroid': d0.centroid == d1.centroid, 'shared': shared, 'of': len(d0.cells),
-            'new': len(set(d1.cells) - set(d0.cells))}
+    return {'same': k0 == k1, 'cells_same': k0.split('.')[0] == k1.split('.')[0], 'centroid': d0.centroid == d1.centroid,
+            'shared': shared, 'of': len(d0.cells), 'new': len(set(d1.cells) - set(d0.cells))}
 
 
 def cells(c):
@@ -147,7 +147,8 @@ class Fig:
 
 def key_spans(key, x, y, size=18):
     """The key, its parts coloured: version, centroid, shape, points."""
-    parts = [(key[0], MUTED), (key[1:8], BLUE), (key[8], '#16a34a'), (key[9:], ORANGE)]
+    cells, h = key.split('.')
+    parts = [(cells[0], MUTED), (cells[1:8], BLUE), (cells[8], '#16a34a'), (cells[9:], ORANGE), ('.' + h, '#7c3aed')]
     spans = ''.join(f'<tspan fill="{c}">{s}</tspan>' for s, c in parts)
     return f'<text x="{x}" y="{y}" font-size="{size}" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">{spans}</text>'
 
@@ -185,7 +186,7 @@ def figure_anatomy(r, path):
     return key, d, by_cell
 
 
-def figure_pair(a, b, title, ka, kb, path, note, centroids=False):
+def figure_pair(a, b, title, ka, kb, path, note, centroids=False, labels=('before (blue)', 'after (orange)')):
     da, db = decode(ka), decode(kb)
     pts = a + b + [[lon, lat] for c in da.cells + db.cells + [da.centroid, db.centroid] for lat, lon in h3.cell_to_boundary(c)]
     f = Fig(pts)
@@ -207,8 +208,9 @@ def figure_pair(a, b, title, ka, kb, path, note, centroids=False):
     f.text(PAD, PAD + 4, title, 15, INK, 'bold')
     f.out.append(key_spans(ka, PAD, PAD + 30, 15))
     f.out.append(key_spans(kb, PAD, PAD + 50, 15))
-    f.text(PAD + 470, PAD + 30, 'before (blue line)', 12, MUTED)
-    f.text(PAD + 470, PAD + 50, 'after (orange line)', 12, MUTED)
+    lx = PAD + 9.1 * max(len(ka), len(kb)) + 24
+    f.text(f'{lx:.0f}', PAD + 30, labels[0], 12, MUTED)
+    f.text(f'{lx:.0f}', PAD + 50, labels[1], 12, MUTED)
     f.text(PAD, H - 12, note, 12, MUTED)
     f.save(path)
 
@@ -235,23 +237,24 @@ def main():
     row('Simplified (Douglas-Peucker, 5 m)', simplify(line, 5))
     row('Simplified (Douglas-Peucker, 20 m)', simplify(line, 20))
     row('Every point moved 3 m', jitter(line, 3, rng))
+    row('Written with 7 decimals, plus float noise', [[float(f'{lon + 3e-7:.7f}'), float(f'{lat - 2e-7:.7f}')] for lon, lat in line])
     row('A 250 m walk in added at the start', extend_start(line, 250))
     row('Last 10% cut off (an out-and-back that turned around short)', line[:int(len(line) * 0.9)])
     row('Called a one-way instead of an out-and-back', line, 'w')
     print('\n## Tunnel Mountain perturbations')
-    print('| Change | Key | Same key? | Centroid cell | Points\' cells |')
+    print('| Change | Key | Same key? | Same cell part? | Points\' cells |')
     print('|---|---|---|---|---|')
     print(f'| (none) | `{k0}` | | | |')
     for label, k, c in rows:
-        print(f"| {label} | `{k}` | {'yes' if c['same'] else 'no'} | {'same' if c['centroid'] else 'moved'} | {cells(c)} |")
+        print(f"| {label} | `{k}` | {'yes' if c['same'] else 'no'} | {'yes' if c['cells_same'] else 'no'} | {cells(c)} |")
 
     print('\n## Jitter trials (Tunnel Mountain, 500 each)')
     for r in (1, 3, 10, 25):
-        same = shared = cen = 0
+        same = cs = shared = cen = 0
         for _ in range(500):
             c = compare(k0, route_key(jitter(line, r, rng), 'b'))
-            same += c['same']; shared += c['shared'] / c['of']; cen += c['centroid']
-        print(f'up to {r} m: same key {same / 5:.0f}%, centroid cell kept {cen / 5:.0f}%, points\' cells kept {shared / 5:.0f}%')
+            same += c['same']; cs += c['cells_same']; shared += c['shared'] / c['of']; cen += c['centroid']
+        print(f'up to {r} m: same key {same / 5:.0f}%, same cell part {cs / 5:.0f}%, centroid cell kept {cen / 5:.0f}%, points\' cells kept {shared / 5:.0f}%')
 
     fl = fen['line']
     kf = route_key(fl, 'p')
@@ -260,7 +263,7 @@ def main():
                       ('started an eighth of the way round', rotate_loop(fl, 0.125)), ('started 1% of the way round', rotate_loop(fl, 0.01)), ('started 2% (54 m) of the way round', rotate_loop(fl, 0.02))):
         k = route_key(ln, 'p')
         c = compare(kf, k)
-        print(f"| {label} | `{k}` | {'yes' if c['same'] else 'no'} | {'same' if c['centroid'] else 'moved'} | {cells(c)} |")
+        print(f"| {label} | `{k}` | {'yes' if c['same'] else 'no'} | {'yes' if c['cells_same'] else 'no'} | {cells(c)} |")
 
     ext = extend_start(line, 250)
     figure_pair(line, ext, 'Tunnel Mountain with a 250 m walk in added at its start', k0, route_key(ext, 'b'),
@@ -269,6 +272,12 @@ def main():
     figure_pair(fl, rot, 'Fenland Trail loop, started 54 m further round', kf, route_key(rot, 'p'),
                 'docs/images/loop-start.svg', 'Every sample point slides 54 m along: grey cells kept, blue lost, orange gained. Dashed: the centroid\'s cell, the same before and after.',
                 centroids=True)
+    ma, nf = EX['mendenhall-lake'], EX['nugget-falls']
+    ka, kb = route_key(ma['line'], 'b'), route_key(nf['line'], 'b')
+    print('\n## Mendenhall:', ka, kb)
+    figure_pair(ma['line'], nf['line'], 'Two hikes from one trailhead at the Mendenhall Glacier', ka, kb, 'docs/images/mendenhall.svg',
+                'Same ends, same cells (grey): the same cell part. A kilometre ~100 m apart in the middle: different hashes, different keys.',
+                labels=('Mendenhall Lake (blue)', 'Nugget Falls Trail (orange)'))
 
 
 if __name__ == '__main__':

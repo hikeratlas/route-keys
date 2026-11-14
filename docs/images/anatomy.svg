@@ -44,6 +44,6 @@
 <circle cx="410.5" cy="250.9" r="6" fill="#2563eb" stroke="#fff" stroke-width="1.5"/>
 <text x="338.5" y="255.9" font-size="13" fill="#2563eb" paint-order="stroke" stroke="#fff" stroke-width="3">centroid</text>
 <text x="30" y="34" font-size="15" fill="#1c1917" font-weight="bold">Tunnel Mountain Summit Trail, Banff National Park: 3.5 km out-and-back</text>
-<text x="30" y="62" font-size="18" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"><tspan fill="#78716c">1</tspan><tspan fill="#2563eb">EsEbJsA</tspan><tspan fill="#16a34a">b</tspan><tspan fill="#ea580c">BDAACBCCEG</tspan></text>
+<text x="30" y="62" font-size="18" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"><tspan fill="#78716c">1</tspan><tspan fill="#2563eb">EsEbJsA</tspan><tspan fill="#16a34a">b</tspan><tspan fill="#ea580c">BDAACBCCEG</tspan><tspan fill="#7c3aed">.31CoXYcAScA</tspan></text>
 <text x="30" y="448" font-size="12" fill="#78716c" font-weight="normal">Orange: the cells of the 9 points evenly spaced along the line (0 to 8). Blue: the centroid of the 21 grey points, and its cell.</text>
 </svg>
