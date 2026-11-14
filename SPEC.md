@@ -68,7 +68,9 @@ All characters come from the base64url alphabet (RFC 4648 §5):
 
 Every key has at least one offset, so at least 11 characters. Reversing a
 line gives the same key: the points at `k/8` of the line are the points at
-`1 − k/8` of its reverse, and they're kept as a set.
+`1 − k/8` of its reverse, and they're kept as a set. This is by design: a key
+names a path, not a direction of travel (README, "How keys behave"). A loop's
+start does change its key.
 
 ## Decoding
 

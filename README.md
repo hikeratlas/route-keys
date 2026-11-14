@@ -69,6 +69,17 @@ most of what it decodes to stays put. On the Tunnel Mountain trail:
 **Reversing a line never changes its key.** The point at 1/8 of the line is the
 point at 7/8 of its reverse, and the points are kept as a set.
 
+This is deliberate. A key names the path on the ground, not which way it was
+walked, so a loop walked clockwise or counter-clockwise, or a traverse from
+either end, has one key. People think of a loop as one hike, and its faves and
+reviews apply whichever way round. A track records its own direction in its
+GPX file. If Hiker Atlas's builds ever flipped a line's direction, faves of it
+would still match. Where direction does matter, a record can carry it beside
+the key (say, `forward` or `reverse` relative to the route's line) without
+changing keys. On the 13 November 2026 build, no two curated routes are the
+same path in opposite directions. Between it and the build before, no route's
+line came out reversed.
+
 **Where a loop starts does matter.** The points are measured from the start.
 On the Fenland Trail loop (2.7 km), `1EsHMmZgpFHBBACCCCGGEII`:
 
