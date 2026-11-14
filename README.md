@@ -187,7 +187,7 @@ Install a release's tarball (npm can't install a git dependency from a
 subdirectory):
 
 ```json
-"@hikeratlas/route-keys": "https://github.com/hikeratlas/route-keys/releases/download/v1.0.0/hikeratlas-route-keys-1.0.0.tgz"
+"@hikeratlas/route-keys": "https://github.com/hikeratlas/route-keys/releases/download/v0.1.0/hikeratlas-route-keys-0.1.0.tgz"
 ```
 
 Python (`python/`; depends on h3 4.x):
@@ -200,20 +200,22 @@ decode(key).cells
 ```
 
 ```
-pip install "route-keys @ git+https://github.com/hikeratlas/route-keys@v1.0.0#subdirectory=python"
+pip install "route-keys @ git+https://github.com/hikeratlas/route-keys@v0.1.0#subdirectory=python"
 ```
 
 ## Stability
 
-Keys are stored in people's records, so **recipe v1 never changes**:
+Keys are stored in people's records, so recipe v1 must eventually never change. **Releases are 0.x while Hiker Atlas tries route keys in practice, and v1 may still change until 1.0**; from 1.0 it's frozen. Meanwhile:
 - Both implementations are tested against `vectors/v1.json`: 22 real routes, the two Mendenhall hikes, and 7 edge cases.
 - The tests also check the vectors file's own hash.
 - On all 59,256 routes of the build the vectors came from, the two implementations agree to the character.
 
 Floating point is pinned down: SPEC.md says which operations, in which order.
 
-A better recipe would be v2, with a new version character, its own vectors,
-and v1 still made and decoded as before. CLAUDE.md has the rules for anyone
+Until 1.0, a change to the recipe updates SPEC.md, both implementations and
+the vectors together, with a minor version bump. After 1.0, a better recipe
+would be v2, with a new version character, its own vectors, and v1 still made
+and decoded as before. CLAUDE.md has the rules for anyone
 (or any agent) changing this repository.
 
 ## Layout
@@ -221,7 +223,7 @@ and v1 still made and decoded as before. CLAUDE.md has the rules for anyone
 | Path | |
 |---|---|
 | `SPEC.md` | recipe v1, normatively |
-| `vectors/v1.json` | lines, their keys and decodings: the contract (frozen) |
+| `vectors/v1.json` | lines, their keys and decodings: the contract |
 | `ts/` | `@hikeratlas/route-keys`, TypeScript |
 | `python/` | `route_keys`, Python |
 | `scripts/examples.py` | this README's figures and tables, from `docs/examples.json` |

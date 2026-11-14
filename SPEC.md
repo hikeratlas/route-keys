@@ -5,9 +5,11 @@ it, and `vectors/v1.json` is the contract between them. An implementation is
 correct when it gives every vector's key from its line and shape, and decodes
 every key to its centroid, cells and hash.
 
-Recipe v1 is frozen. A change to anything below that changes a key would make
-a different recipe: v2, with its own version character, document and vectors.
-v1 keys stay valid forever (see CLAUDE.md).
+Recipe v1 is a draft until route-keys 1.0. Until then it may change: SPEC.md,
+both implementations and the vectors change together, with a minor version
+bump. From 1.0 it's frozen: a change to anything below that changes a key
+would make a different recipe, v2, with its own version character, document
+and vectors, and v1 keys stay valid forever (see CLAUDE.md).
 
 ## The key
 

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""Writes vectors/v1.json, once. Kept for the record of how the vectors were
-made: they're frozen now (tests check the file's hash), and the real routes
-came from a Hiker Atlas build that this script can't fetch again.
+"""Writes vectors/v1.json: only for a deliberate recipe change, before 1.0
+(see CLAUDE.md); tests check the file's hash. The real routes' lines came
+from a Hiker Atlas build that this script can't fetch again: pass the
+first 22 vectors of vectors/v1.json (the real routes) as LINES.json to reuse them.
 
     python3 scripts/make_vectors.py LINES.json > vectors/v1.json
 
@@ -43,7 +44,7 @@ a, b = vs[-2]['key'], vs[-1]['key']
 assert a.split('.')[0] == b.split('.')[0] and a != b
 doc = {
     'recipe': 1,
-    'description': "Route keys, recipe v1 (SPEC.md): lines and the keys they give, with each key's decoded centroid cell, points' cells (H3 resolution 10) and hash. line is [[lon, lat], ...]; shape is b (out-and-back), p (loop) or w (one-way). The real routes are Hiker Atlas's, from its 13 November 2026 north-america build, derived from OpenStreetMap data (© OpenStreetMap contributors, ODbL). Frozen: never edit; a new recipe gets a new file.",
+    'description': "Route keys, recipe v1 (SPEC.md): lines and the keys they give, with each key's decoded centroid cell, points' cells (H3 resolution 10) and hash. line is [[lon, lat], ...]; shape is b (out-and-back), p (loop) or w (one-way). The real routes are Hiker Atlas's, from its 13 November 2026 north-america build, derived from OpenStreetMap data (© OpenStreetMap contributors, ODbL). Changes only with the recipe (see CLAUDE.md); frozen from route-keys 1.0.",
     'vectors': vs,
 }
 json.dump(doc, sys.stdout, separators=(',', ':'))

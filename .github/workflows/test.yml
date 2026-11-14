@@ -1,6 +1,6 @@
 name: Test
 
-# Both implementations against vectors/v1.json (and its frozen hash), on the
+# Both implementations against vectors/v1.json (and its hash), on the
 # oldest and newest versions they support.
 on:
   pull_request:

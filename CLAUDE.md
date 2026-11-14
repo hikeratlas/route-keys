@@ -3,30 +3,46 @@
 This repository is the canonical implementation of route keys. Other
 repositories (hikeratlas/website, and later the routes build and indexers)
 consume it as a library. Keys are stored in people's AT Protocol records as
-record keys, so a key can never change meaning.
+record keys, so once recipe v1 is final, a key can never change meaning.
 
-## Recipe v1 is frozen
+## Recipe v1 is a draft until 1.0
 
-- Don't change anything in `python/route_keys`, `ts/src` or `SPEC.md` that
-  could change a key or a decoding. That includes "harmless" changes to
-  arithmetic: `hypot` for `sqrt`, `sum()` or `fsum` for a loop, reordering
-  operations, rounding. A one-ulp difference can move a point into another
-  H3 cell.
-- Never edit `vectors/v1.json`. Both test suites check its SHA-256; if that
-  test fails, the fix is to undo the edit, not to update the hash.
-- Fixes that can't change a key are fine: error messages, types,
-  documentation, packaging, input validation that only rejects what was
+Releases are 0.x while Hiker Atlas tries route keys in a real
+implementation, and recipe v1 may still change. From 1.0, it's frozen.
+
+- **Any change that can change a key or a decoding is a recipe change.**
+  That includes "harmless" changes to arithmetic: `hypot` for `sqrt`,
+  `sum()` or `fsum` for a loop, reordering operations, rounding. A one-ulp
+  difference can move a point into another H3 cell.
+- **In 0.x, a recipe change is allowed only on purpose, and with the
+  maintainer's agreement.** It has to land as one coherent change:
+  - SPEC.md and both implementations together;
+  - `vectors/v1.json` regenerated with `scripts/make_vectors.py`;
+  - the vectors hash updated in both test suites;
+  - the README's figures and tables rebuilt (`scripts/examples.py`, `scripts/corpus.py`);
+  - a minor version bump.
+- **The vectors hash check is a tripwire.** If it fails and you didn't mean
+  to change the recipe, undo your change; don't update the hash.
+- **From 1.0, never change recipe v1.** A better recipe is v2: version
+  character `2`, its own section in SPEC.md, its own `vectors/v2.json`, and
+  code that still makes and decodes v1 keys unchanged.
+- **Fixes that can't change a key are always fine:** error messages, types,
+  documentation, packaging, and input validation that only rejects what was
   already invalid. Run both test suites.
-- A better recipe is a new one: version character `2`, its own section in
-  SPEC.md, its own `vectors/v2.json`, and code that still makes and decodes
-  v1 keys unchanged. Ask the maintainer first.
+
+## Releases
+
+Merging to main publishes a release when the version in `ts/package.json`
+(and `python/pyproject.toml`, which must match) has none yet
+(`.github/workflows/release.yml`). It creates the tag `v<version>` and attaches
+the npm tarball. To release, bump both versions in the PR.
 
 ## Consumers
 
 - Use the library. Don't copy the algorithm into another repository.
 - TypeScript: a release's tarball, e.g. in package.json
-  `"@hikeratlas/route-keys": "https://github.com/hikeratlas/route-keys/releases/download/v1.0.0/hikeratlas-route-keys-1.0.0.tgz"`.
-- Python: `pip install "route-keys @ git+https://github.com/hikeratlas/route-keys@v1.0.0#subdirectory=python"`.
+  `"@hikeratlas/route-keys": "https://github.com/hikeratlas/route-keys/releases/download/v0.1.0/hikeratlas-route-keys-0.1.0.tgz"`.
+- Python: `pip install "route-keys @ git+https://github.com/hikeratlas/route-keys@v0.1.0#subdirectory=python"`.
 
 ## Checks
 
