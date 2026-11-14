@@ -95,5 +95,5 @@ north-america build, by `scripts/corpus.py` and the earlier analysis in
 hikeratlas/website#130:
 
 - **Length:** median 23 characters, 95th percentile 31, maximum 45. Record keys in AT Protocol may be up to 512, and under 80 is recommended.
-- **Distinctness:** no two routes whose lines overlap less than 70% share a key. 222 keys are shared, all by the same route twice: one route listed in two overlapping parks, or near-identical variants.
+- **Distinctness:** 222 keys are shared by two routes. All but one pair are the same route twice: one route listed in two overlapping parks, or near-identical variants overlapping 70% or more. The exception is two 3 km variants of one hike in one trail area, overlapping 69%.
 - **Exactness:** a key identifies a line, not a route in the abstract. Moving every point by up to 1 m changes 12% of keys, by up to 3 m 31%, by up to 10 m 68%. Even then the centroid cell is kept 95–100% of the time, and most points' cells too. So find nearby keys by their decoded cells, not by equality.
