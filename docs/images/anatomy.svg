@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 460" width="720" height="460" font-family="ui-sans-serif, system-ui, sans-serif"><rect width="720" height="460" fill="#ffffff"/>
+<path d="M575.1,273.7 L532.7,321.2 L555.0,385.8 L619.6,402.9 L662.0,355.4 L639.7,290.8 L575.1,273.7Z" fill="#ea580c" fill-opacity="0.25" stroke="#ea580c" stroke-width="1.5"/>
+<path d="M381.2,222.4 L338.8,269.9 L361.1,334.5 L425.7,351.6 L468.1,304.1 L445.8,239.5 L381.2,222.4Z" fill="#ea580c" fill-opacity="0.25" stroke="#ea580c" stroke-width="1.5"/>
+<path d="M508.3,80.1 L465.9,127.5 L488.2,192.1 L552.8,209.2 L595.2,161.7 L572.9,97.2 L508.3,80.1Z" fill="#ea580c" fill-opacity="0.25" stroke="#ea580c" stroke-width="1.5"/>
+<path d="M294.3,140.8 L251.9,188.2 L274.2,252.8 L338.8,269.9 L381.2,222.4 L358.9,157.9 L294.3,140.8Z" fill="#ea580c" fill-opacity="0.25" stroke="#ea580c" stroke-width="1.5"/>
+<path d="M100.4,89.5 L58.0,137.0 L80.3,201.5 L144.9,218.6 L187.3,171.2 L165.0,106.6 L100.4,89.5Z" fill="#ea580c" fill-opacity="0.25" stroke="#ea580c" stroke-width="1.5"/>
+<path d="M381.2,222.4 L338.8,269.9 L361.1,334.5 L425.7,351.6 L468.1,304.1 L445.8,239.5 L381.2,222.4Z" fill="#2563eb" fill-opacity="0.18" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="5 3"/>
+<path d="M90.0,139.8 L110.6,133.8 L121.3,124.9 L126.9,127.9 L129.4,136.8 L135.6,136.8 L138.1,125.9 L129.4,94.0 L200.7,163.8 L239.4,184.7 L251.9,187.7 L256.3,180.7 L258.2,190.7 L280.0,208.6 L278.8,183.7 L282.5,183.7 L350.1,264.5 L421.9,377.1 L436.3,389.1 L459.4,392.1 L462.6,390.1 L459.4,379.1 L436.3,343.2 L436.3,325.3 L451.3,329.3 L451.3,326.3 L438.8,302.3 L425.7,237.5 L432.6,236.5 L460.7,273.4 L529.5,343.2 L574.5,371.1 L605.1,409.0 L620.7,420.0 L624.5,416.0 L619.5,408.0 L621.3,384.1 L616.3,371.1 L601.3,363.2 L588.8,343.2 L588.8,316.3 L593.2,310.3 L587.0,312.3 L582.0,308.3 L578.2,311.3 L568.8,299.4 L577.0,253.5 L571.3,252.5 L578.8,223.6 L575.1,219.6 L561.3,227.6 L558.8,224.6 L565.1,199.6 L553.8,159.8 L543.2,141.8 L514.4,128.9 L525.1,118.9 L528.8,107.9 L514.4,83.0 L501.9,80.0 L494.4,86.0 L491.9,99.9 L501.9,100.9 L491.9,99.9 L494.4,86.0 L501.9,80.0 L514.4,83.0 L528.8,107.9 L525.1,118.9 L514.4,128.9 L543.2,141.8 L553.8,159.8 L565.1,199.6 L558.8,224.6 L561.3,227.6 L575.1,219.6 L578.8,223.6 L571.3,252.5 L577.0,253.5 L568.8,299.4 L578.2,311.3 L582.0,308.3 L587.0,312.3 L593.2,310.3 L588.8,316.3 L588.8,343.2 L601.3,363.2 L616.3,371.1 L621.3,384.1 L619.5,408.0 L624.5,416.0 L620.7,420.0 L605.1,409.0 L574.5,371.1 L529.5,343.2 L460.7,273.4 L432.6,236.5 L425.7,237.5 L438.8,302.3 L451.3,326.3 L451.3,329.3 L436.3,325.3 L436.3,343.2 L459.4,379.1 L462.6,390.1 L459.4,392.1 L436.3,389.1 L421.9,377.1 L350.1,264.5 L282.5,183.7 L278.8,183.7 L280.0,208.6 L258.2,190.7 L256.3,180.7 L251.9,187.7 L239.4,184.7 L200.7,163.8 L129.4,94.0 L138.1,125.9 L135.6,136.8 L129.4,136.8 L126.9,127.9 L121.3,124.9 L110.6,133.8 L90.0,139.8" fill="none" stroke="#1c1917" stroke-width="3" stroke-opacity="1.0" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="90.0" cy="139.8" r="2.5" fill="#78716c" stroke="none" stroke-width="1.5"/>
+<circle cx="168.5" cy="132.2" r="2.5" fill="#78716c" stroke="none" stroke-width="1.5"/>
+<circle cx="279.7" cy="201.0" r="2.5" fill="#78716c" stroke="none" stroke-width="1.5"/>
+<circle cx="366.2" cy="289.8" r="2.5" fill="#78716c" stroke="none" stroke-width="1.5"/>
+<circle cx="460.7" cy="383.4" r="2.5" fill="#78716c" stroke="none" stroke-width="1.5"/>
+<circle cx="429.7" cy="257.5" r="2.5" fill="#78716c" stroke="none" stroke-width="1.5"/>
+<circle cx="518.7" cy="332.3" r="2.5" fill="#78716c" stroke="none" stroke-width="1.5"/>
+<circle cx="619.9" cy="402.7" r="2.5" fill="#78716c" stroke="none" stroke-width="1.5"/>
+<circle cx="571.6" cy="283.7" r="2.5" fill="#78716c" stroke="none" stroke-width="1.5"/>
+<circle cx="554.5" cy="162.0" r="2.5" fill="#78716c" stroke="none" stroke-width="1.5"/>
+<circle cx="501.9" cy="100.9" r="2.5" fill="#78716c" stroke="none" stroke-width="1.5"/>
+<circle cx="554.5" cy="162.0" r="2.5" fill="#78716c" stroke="none" stroke-width="1.5"/>
+<circle cx="571.6" cy="283.7" r="2.5" fill="#78716c" stroke="none" stroke-width="1.5"/>
+<circle cx="619.9" cy="402.7" r="2.5" fill="#78716c" stroke="none" stroke-width="1.5"/>
+<circle cx="518.7" cy="332.3" r="2.5" fill="#78716c" stroke="none" stroke-width="1.5"/>
+<circle cx="429.7" cy="257.5" r="2.5" fill="#78716c" stroke="none" stroke-width="1.5"/>
+<circle cx="460.7" cy="383.4" r="2.5" fill="#78716c" stroke="none" stroke-width="1.5"/>
+<circle cx="366.2" cy="289.8" r="2.5" fill="#78716c" stroke="none" stroke-width="1.5"/>
+<circle cx="279.7" cy="201.0" r="2.5" fill="#78716c" stroke="none" stroke-width="1.5"/>
+<circle cx="168.5" cy="132.2" r="2.5" fill="#78716c" stroke="none" stroke-width="1.5"/>
+<circle cx="90.0" cy="139.8" r="2.5" fill="#78716c" stroke="none" stroke-width="1.5"/>
+<circle cx="90.0" cy="139.8" r="5" fill="#ea580c" stroke="#fff" stroke-width="1.5"/>
+<circle cx="90.0" cy="139.8" r="5" fill="#ea580c" stroke="#fff" stroke-width="1.5"/>
+<text x="99.0" y="130.8" font-size="13" fill="#1c1917" paint-order="stroke" stroke="#fff" stroke-width="3">0, 8</text>
+<circle cx="319.2" cy="227.5" r="5" fill="#ea580c" stroke="#fff" stroke-width="1.5"/>
+<circle cx="319.2" cy="227.5" r="5" fill="#ea580c" stroke="#fff" stroke-width="1.5"/>
+<text x="328.2" y="218.5" font-size="13" fill="#1c1917" paint-order="stroke" stroke="#fff" stroke-width="3">1, 7</text>
+<circle cx="429.7" cy="257.5" r="5" fill="#ea580c" stroke="#fff" stroke-width="1.5"/>
+<circle cx="429.7" cy="257.5" r="5" fill="#ea580c" stroke="#fff" stroke-width="1.5"/>
+<text x="438.7" y="248.5" font-size="13" fill="#1c1917" paint-order="stroke" stroke="#fff" stroke-width="3">2, 6</text>
+<circle cx="588.8" cy="338.2" r="5" fill="#ea580c" stroke="#fff" stroke-width="1.5"/>
+<circle cx="588.8" cy="338.2" r="5" fill="#ea580c" stroke="#fff" stroke-width="1.5"/>
+<text x="597.8" y="329.2" font-size="13" fill="#1c1917" paint-order="stroke" stroke="#fff" stroke-width="3">3, 5</text>
+<circle cx="501.9" cy="100.9" r="5" fill="#ea580c" stroke="#fff" stroke-width="1.5"/>
+<text x="510.9" y="91.9" font-size="13" fill="#1c1917" paint-order="stroke" stroke="#fff" stroke-width="3">4</text>
+<circle cx="410.5" cy="250.9" r="6" fill="#2563eb" stroke="#fff" stroke-width="1.5"/>
+<text x="338.5" y="255.9" font-size="13" fill="#2563eb" paint-order="stroke" stroke="#fff" stroke-width="3">centroid</text>
+<text x="30" y="34" font-size="15" fill="#1c1917" font-weight="bold">Tunnel Mountain Summit Trail, Banff National Park: 3.5 km out-and-back</text>
+<text x="30" y="62" font-size="18" font-family="ui-monospace, SFMono-Regular, Menlo, monospace"><tspan fill="#78716c">1</tspan><tspan fill="#2563eb">EsEbJsA</tspan><tspan fill="#16a34a">b</tspan><tspan fill="#ea580c">BDAACBCCEG</tspan><tspan fill="#7c3aed">.31CoXYcAScA</tspan></text>
+<text x="30" y="448" font-size="12" fill="#78716c" font-weight="normal">Orange: the cells of the 9 points evenly spaced along the line (0 to 8). Blue: the centroid of the 21 grey points, and its cell.</text>
+</svg>
