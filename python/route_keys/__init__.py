@@ -16,7 +16,7 @@ the key an exact identity of the line.
 
 This and the TypeScript implementation (ts/src) must agree to the
 character; vectors/v1.json is the contract both are tested against. Recipe v1
-is frozen: see CLAUDE.md before changing anything here.
+is a draft until 1.0, then frozen: see CLAUDE.md before changing anything.
 """
 from __future__ import annotations
 

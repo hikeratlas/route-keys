@@ -1,6 +1,6 @@
 {
   "name": "@hikeratlas/route-keys",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Route keys: a route's identity computed from its line (recipe v1)",
   "type": "module",
   "main": "dist/index.js",

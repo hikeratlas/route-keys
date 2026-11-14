@@ -16,7 +16,7 @@
 //
 // This and the Python implementation (python/route_keys) must agree to the
 // character; vectors/v1.json is the contract both are tested against. Recipe
-// v1 is frozen: see CLAUDE.md before changing anything here.
+// v1 is a draft until 1.0, then frozen: see CLAUDE.md before changing anything.
 import { cellToLatLng, cellToLocalIj, isValidCell, latLngToCell, localIjToCell } from 'h3-js';
 import { sha256 } from '@noble/hashes/sha2';
 
